@@ -68,6 +68,27 @@ function ($routeProvider) {
         $scope.cardsPart = [];
         $scope.itemsPerPage = 10;
         $scope.currentPage = 1;
+        $scope.deckCards = [];
+        $scope.currentCard = null;
+
+        $scope.showEditDeckTitle = function () {
+            angular.element('.deck-title').hide();
+            angular.element('.edit-deck-title-form').show();
+        };
+
+        $scope.changeDeckTitle = function (deckTitle) {
+            if (deckTitle) {
+                angular.element('.deck-title').text(deckTitle);
+            } else {
+                angular.element('.deck-title').text("Deck");
+            }
+            $scope.cancelEditionDeckTitle();
+        };
+
+        $scope.cancelEditionDeckTitle = function () {
+            angular.element('.deck-title').show();
+            angular.element('.edit-deck-title-form').hide();
+        };
 
         $scope.filterAllCards = function (input) {
             $scope.allCardsFiltered = $scope.allCards.filter(function (element) {
@@ -98,6 +119,10 @@ function ($routeProvider) {
             //$scope.noOfPages = Math.ceil($scope.filtered.length/$scope.entryLimit);
             $scope.prepareCardsSample();
         });
+
+        $scope.showCardInfo = function (index) {
+            $scope.currentCard = $scope.cardsPart[index];
+        }
 }])
 
 .service('CardsService', function ($http, $q) {
@@ -114,6 +139,60 @@ function ($routeProvider) {
 
 .factory('AuthService', function () {
     this.login = function (credentials) {}
+})
+
+.directive('carddraggable', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            element.draggable({
+                revert: false,
+                helper: 'clone'
+            });
+        }
+    };
+})
+
+.directive('decksortable', function ($compile) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, sttrs) {
+            element.sortable({});
+        }
+    };
+})
+
+.directive('deckdroppable', function ($compile) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            //This makes an element Droppable
+            element.droppable({
+                drop: function (event, ui) {
+                    var dragIndex = ui.draggable.index(),
+                        dragEl = angular.element(ui.draggable).parent(),
+                        dropEl = angular.element(this);
+
+                    if (dragEl.hasClass('cardsList') && !dropEl.children().hasClass('deckCardsList')) {
+                        var existingCard = scope.deckCards.filter(function (elem) {
+                            return elem === scope.cardsPart[dragIndex];
+                        });
+                        if (existingCard.length > 0) {
+                            var index = scope.deckCards.indexOf(existingCard[0]);
+                            if (scope.deckCards[index].count) {
+                                scope.deckCards[index].count++;
+                            } else {
+                                scope.deckCards[index].count = 2;
+                            }
+                        } else {
+                            scope.deckCards = scope.deckCards.concat(scope.cardsPart[dragIndex]);
+                        }
+                    }
+                    scope.$apply();
+                }
+            });
+        }
+    };
 });
 
 function initializeDialogs() {

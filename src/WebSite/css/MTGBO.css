@@ -10,3 +10,17 @@
     border-bottom-right-radius: 0;
     border-width: 1px;
 }
+
+.head-input
+{
+    color: black;
+}
+
+.btn-right{
+    float: right;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-right: 6px;
+}

@@ -1,10 +1,39 @@
-<div class="input-append">
-    <input type="text" placeholder="Search" ng-model="searchCardName">
+<div class="col-md-6">
+    <div class="input-append">
+        Card name:
+        <input type="text" placeholder="Search" ng-model="searchCardName">
+    </div>
+
+    <pagination boundary-links="true" max-size="5" items-per-page="itemsPerPage" total-items="allCardsFiltered.length" ng-model="currentPage" ng-change="pageChanged()"></pagination>
+
+    <ul class="list-group cardsList">
+        <li class="list-group-item" ng-repeat="card in cardsPart" carddraggable style="z-index: 1000;" ng-mouseover="showCardInfo($index)">{{card.name}}</li>
+    </ul>
 </div>
+<div class="col-md-6">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Card preview</h3>
+        </div>
+        <div class="panel-body">
+            {{currentCard.name}}
+        </div>
+    </div>
 
-<pagination boundary-links="true" max-size="5" items-per-page="itemsPerPage" total-items="allCardsFiltered.length" ng-model="currentPage" ng-change="pageChanged()"></pagination>
-
-<ul class="list-group">
-    <li class="list-group-item" ng-repeat="card in cardsPart">{{card.name}}</li>
-</ul>
-
+    <div class="panel panel-primary" deckdroppable>
+        <div class="panel-heading">
+            <h3 class="panel-title deck-title" ng-click="showEditDeckTitle()">Deck</h3>
+            <div style="display: none;" class="edit-deck-title-form">
+                <input type="text" ng-model="deckTitle" class="head-input" />
+                <button type="button" class="btn btn-default" ng-click="changeDeckTitle(deckTitle)">OK</button>
+                <button type="button" class="btn btn-default" ng-click="cancelEditionDeckTitle()">Cancel</button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <ul class="list-group deckCardsList" id="deckCardsList" decksortable>
+                <li class="list-group-item" ng-repeat="card in deckCards" style="z-index: 1000;" ng-repeat="card in deckCards">{{card.name}} <span class="badge" ng-show="card.count && card.count > 1">{{card.count}}</span><button type="button" ng-click="removeCardFromDeck($index);" class="btn btn-primary btn-right">Remove</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
