@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html ng-app="MtgboApp">
+    <head>
+        <script src="js/jquery-2.1.1.min.js"></script>
+        <script src="js/angular.min.js"></script>
+        <script src="js/angular-route.min.js"></script>
+        <script src="js/angular-resource.min.js"></script>
+        <script src="js/MTGBO.Core.js"></script>
+        
+        <script src="./js/bootstrap.min.js"></script>
+        <script src="./js/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="./css/bootstrap-flatly.min.css">
+        <link rel="stylesheet" href="./css/MTGBO.css">
+        <link rel="stylesheet" href="./css/jquery-ui.min.css">
+        
+    <title>MTGBO</title>
+    </head>
+    <body ng-controller="MtgboAppController">
+        <div class="navbar navbar-default" id="top" role="banner">
+          <div class="container">
+            <div class="navbar-header">
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a href="#" class="navbar-brand">MTGBO</a>
+            </div>
+            <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+              <ul class="nav navbar-nav" ng-show="isUserLogged()">
+                <li class="active">
+                  <a href="#home" ng-show="isUserLogged()">Home</a>
+                </li>
+                <li>
+                  <a href="#logon" ng-hide="isUserLogged()">Logon</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <div class="bs-docs-header" id="content">
+      <div class="container">
+        <h1>MTGBO</h1>
+        <div ng-view></div>
+      </div>
+    </div>
+        <!-- container for signalr chat -->
+        <div class="container" style="display: none;">
+        <input type="text" id="message" />
+        <input type="button" id="sendmessage" value="Send" />
+        <input type="hidden" id="displayname" />
+            <ul id="discussion"></ul>
+        </div>
+    </body>
+</html>
