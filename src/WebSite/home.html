@@ -1,5 +1,10 @@
-<span class=""></span><input type="text" placeholder="Search" ng-model="searchText">
+<div class="input-append">
+    <input type="text" placeholder="Search" ng-model="searchCardName">
+</div>
+
+<pagination boundary-links="true" max-size="5" items-per-page="itemsPerPage" total-items="allCardsFiltered.length" ng-model="currentPage" ng-change="pageChanged()"></pagination>
 
 <ul class="list-group">
-    <li class="list-group-item" ng-repeat="card in allCards | filter:searchText">{{card.name}}</li>
+    <li class="list-group-item" ng-repeat="card in cardsPart">{{card.name}}</li>
 </ul>
+
