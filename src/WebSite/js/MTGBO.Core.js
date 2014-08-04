@@ -154,7 +154,12 @@ function ($routeProvider) {
         link: function (scope, element, attrs) {
             element.draggable({
                 revert: false,
-                helper: 'clone'
+                helper: function () {
+                    var helper = $(this).clone(); // Untested - I create my helper using other means...
+                    // jquery.ui.sortable will override width of class unless we set the style explicitly.
+                    helper.css({'width': '200px'});
+                    return helper;
+                }
             });
         }
     };
@@ -175,6 +180,7 @@ function ($routeProvider) {
         link: function (scope, element, attrs) {
             //This makes an element Droppable
             element.droppable({
+                hoverClass: 'deck-over',
                 drop: function (event, ui) {
                     var dragIndex = ui.draggable.index(),
                         dragEl = angular.element(ui.draggable).parent(),
