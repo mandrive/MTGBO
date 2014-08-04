@@ -95,6 +95,13 @@ function ($routeProvider) {
                 return element.name.toLowerCase().indexOf(input.toLowerCase()) > -1;
             });
         };
+        
+        $scope.removeCardFromDeck = function (index) {
+            if ($scope.deckCards[index].count)
+                $scope.deckCards[index].count--;
+            else
+                $scope.deckCards.splice(index, 1);
+        }
 
         $scope.prepareCardsSample = function () {
             var begin = (($scope.currentPage - 1) * $scope.itemsPerPage);
