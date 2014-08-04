@@ -194,7 +194,7 @@ function ($routeProvider) {
                             scope.deckCards[index].count++;
                         } else {
                             scope.deckCards = scope.deckCards.concat(scope.cardsPart[dragIndex]);
-                            scope.deckCards[scope.deckCards.length - 1].count = 1
+                            _.last(scope.deckCards).count = 1
                         }
                     }
                     scope.$apply();
