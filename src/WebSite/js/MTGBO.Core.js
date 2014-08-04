@@ -97,9 +97,8 @@ function ($routeProvider) {
         };
         
         $scope.removeCardFromDeck = function (index) {
-            if ($scope.deckCards[index].count)
-                $scope.deckCards[index].count--;
-            else
+            $scope.deckCards[index].count--;
+            if (!$scope.deckCards[index].count)
                 $scope.deckCards.splice(index, 1);
         }
 
@@ -192,13 +191,10 @@ function ($routeProvider) {
                         });
                         if (existingCard.length > 0) {
                             var index = scope.deckCards.indexOf(existingCard[0]);
-                            if (scope.deckCards[index].count) {
-                                scope.deckCards[index].count++;
-                            } else {
-                                scope.deckCards[index].count = 2;
-                            }
+                            scope.deckCards[index].count++;
                         } else {
                             scope.deckCards = scope.deckCards.concat(scope.cardsPart[dragIndex]);
+                            scope.deckCards[scope.deckCards.length - 1].count = 1
                         }
                     }
                     scope.$apply();
